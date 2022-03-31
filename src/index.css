@@ -1,13 +1,253 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  background-color: #0B0B0B;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.font-title{
+  color: #F74D4D;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 33px;
+}
+/* Masonry */
+.my-masonry-grid {
+  display: -webkit-box; /* Not needed if autoprefixing */
+  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: flex;
+  margin-right: -10px; /* gutter size offset */
+  width: auto;
+}
+.my-masonry-grid_column {
+  padding-left: 10px; /* gutter size */
+  background-clip: padding-box;
+}
+
+.my-masonry-grid_column > div {
+  /* change div to reference your elements you put in <Masonry> */
+  /* background: grey; */
+  margin-bottom: 30px;
+}
+/* Masonry */
+
+/* Start of Landing page styling  */
+.landing-logo{
+  height: 264px;
+  width: 264px;
+}
+
+.landing-title{
+  font-weight: bold;
+  font-size: 56px;
+  color: white;
+}
+
+.landing-info{
+  font-size: 18px;
+  color: #6A6A6A;
+}
+
+.landing-button{
+  background: #F74D4D !important;
+}
+
+/* End of Landing page styling */
+
+/* Start of navbar */
+
+.menu-name{
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 25px;
+}
+
+.menu-name:hover{
+  color:#F74D4D;
+}
+
+/* End of navbar */
+
+/* Start of auth component styling */
+.card-container{
+  background-color: #181818;
+  border-radius: 10px;
+  width: 416px;
+  height: 366px;
+}
+
+.login-title{
+  color: white;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+.btn-login {
+  color: white;
+  background: #F74D4D !important;
+}
+/* End of auth component styling */
+
+/* Start of card product */
+.product-card{
+  box-sizing: border-box;
+  width: 241px;
+  height: 410px;
+  border-radius: 5px;
+  background: #212121;
+}
+
+.product-title{
+  color: #F74D4D;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 25px;
+}
+.product-info{
+  color: white;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19px;
+}
+/* End of card product */
+
+/* Start of profile */
+
+.profile-li{
+  list-style: none;
+}
+
+.profile-title{
+  color:#F74D4D;
+  font-size: 18px;
+  font-weight: 800;
+  font-style: normal;
+  line-height: 24.59px;
+}
+
+.profile-info{
+  color: white;
+  font-size: 18px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 24.59px;
+}
+
+.transaction-title{
+  color:#F74D4D;
+  font-size: 14px;
+  font-weight: 900;
+  font-style: normal;
+  line-height: 19.12px;
+}
+
+.transaction-date{
+  color:#F74D4D;
+  font-size: 9px;
+  font-weight: 300;
+  font-style: normal;
+  line-height: 12.29px;
+}
+
+.transaction-info{
+  font-size: 10px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 13.66px;
+}
+
+.transaction-total{
+  font-size: 10px;
+  font-weight: 900;
+  font-style: normal;
+  line-height: 13.66px;
+}
+
+/* End of profile */
+
+/* Start of detail product */
+.detail-product-li{
+  list-style: none;
+}
+
+.detail-title{
+  color:#F74D4D;
+  font-size: 48px;
+  font-weight: 900;
+  font-style: normal;
+  line-height: 65.57px;
+}
+
+.detail-info{
+  font-size: 18px;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 24.59px;
+}
+
+.detail-price{
+  text-align: right;
+  color:#F74D4D;
+  font-size: 24px;
+  font-weight: 900;
+  font-style: normal;
+  line-height: 33px;
+}
+
+.btn-detail{
+  background: #F74D4D !important;
+  border: #f84c4c !important;
+}
+
+/* End of detail product */
+
+
+/* Start of complain */
+.img-chat {
+  width: 40px !important;
+  height: 40px !important;
+  object-fit: cover !important;
+}
+.input-message {
+  width: 100%;
+  height: 90%;
+  background: rgba(171, 171, 171, 0.15);
+  border: none;
+  color: #ffffff;
+}
+
+.chat-me {
+  background: #262626;
+  border-radius: 5px;
+  padding: 10px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  max-width: 400px;
+}
+
+.chat-other {
+  background: #575757;
+  border-radius: 5px;
+  padding: 10px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  max-width: 400px;
+}
+/* End of Complain */
+
+/* Start of payment */
+
+/* End of payment */
