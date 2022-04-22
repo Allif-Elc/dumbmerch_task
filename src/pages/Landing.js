@@ -34,8 +34,9 @@ const Landing = () => {
                 </Button>
                 <Button
                 variant="text"
-                onClick={switchRegister} 
-                className="px-5 my-5">
+                onClick={switchRegister}
+                style={{color:"white"}} 
+                className="px-5 my-5 ms-5">
                     Register
                 </Button>
 

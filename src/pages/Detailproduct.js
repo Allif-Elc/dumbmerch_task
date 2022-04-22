@@ -1,14 +1,106 @@
 import { Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import imgBlank from "../assets/Image-Not-Available.png";
+
 import Menubar from "../components/menubar";
 
-const DetailProduct = () => {
-    
-    const navigate = useNavigate();
+// Import useQuery and useMutation
+import { useQuery, useMutation } from 'react-query';
+import { API_query } from "../config/api";
 
-    const handleBuy= ()=> {
-        navigate("/payment");
-    };
+const DetailProduct = () => {
+    let navigate = useNavigate();
+    let {id} = useParams();
+    let api = API_query();
+    //const [product1,setProduct1] = useState({});
+
+    // Fetching product data from database
+    let { data: product, refetch } = useQuery('Cache', async () => {
+      const config = {
+        method: 'GET',
+        headers: {
+          Authorization: 'Basic ' + localStorage.token,
+        },
+      };
+      const response = await api.get('/product/' + id, config);
+      console.log(response);
+      //setProduct1(response.data)
+      return response.data;
+    });
+
+    //console.log(product1);
+
+  
+    useEffect(() => {
+      //change this to the script source you want to load, for example this is snap.js sandbox env
+      const midtransScriptUrl = 'https://app.sandbox.midtrans.com/snap/snap.js';
+      //change this according to your client-key
+      const myMidtransClientKey = 'SB-Mid-client-E5ESIpflc6n1XJv1';
+  
+      let scriptTag = document.createElement('script');
+      scriptTag.src = midtransScriptUrl;
+      // optional if you want to set script attribute
+      // for example snap.js have data-client-key attribute
+      scriptTag.setAttribute('data-client-key', myMidtransClientKey);
+  
+      document.body.appendChild(scriptTag);
+      return () => {
+        document.body.removeChild(scriptTag);
+      };
+    }, []);
+  
+    const handleBuy = useMutation(async () => {
+      try {
+        // Get data from product
+        const data = {
+          idProduct: product.id,
+          idSeller: product.user.id,
+          price: product.price,
+        };
+  
+        // Data body
+        const body = JSON.stringify(data);
+  
+        // Configuration
+        const config = {
+          method: 'POST',
+          headers: {
+            Authorization: 'Basic ' + localStorage.token,
+            'Content-type': 'application/json',
+          },
+          body,
+        };
+  
+        // Insert transaction data
+        const response = await api.post('/transaction', config);
+        console.log(response);
+        const token = response.payment.token;
+  
+        window.snap.pay(token, {
+          onSuccess: function (result) {
+            /* You may add your own implementation here */
+            console.log(result);
+            navigate('/profile');
+          },
+          onPending: function (result) {
+            /* You may add your own implementation here */
+            console.log(result);
+            navigate('/profile');
+          },
+          onError: function (result) {
+            /* You may add your own implementation here */
+            console.log(result);
+          },
+          onClose: function () {
+            /* You may add your own implementation here */
+            alert('you closed the popup without finishing the payment');
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    });
 
     return ( 
         <>
@@ -21,9 +113,8 @@ const DetailProduct = () => {
             <div className="col d-flex">
                 <div
                     style={{width:436,height:555,border:"1px solid white"}}    
-                
                 >
-                    <img src={require("../assets/Image-Not-Available.png")} 
+                    <img src={imgBlank} 
                     alt="detail-product-img"
                     style={{
                         height:"100%",
@@ -38,8 +129,8 @@ const DetailProduct = () => {
                     <div className="row">
                         <ul>
                             <li className="detail-product-li">
-                                <p className="detail-title">Mouse</p>
-                                <p className="detail-info">Stock: 60</p>
+                                <p className="detail-title"> product.title</p>
+                                <p className="detail-info">Stock: product.qty</p>
                             </li>
                         </ul>
                     </div>
@@ -49,16 +140,16 @@ const DetailProduct = () => {
                             width:544,
                         }}
                     >
-                        <p className="detail-info"> Wireless Mouse 
-                        - Konektivitas wireless 2.4 GHz - Jarak wireless hingga 10 m - Plug and Play - Baterai tahan hingga 12 bulan Mouse Wireless Alytech AL - Y5D, hadir dengan desain 3 tombol mouse yang ringan dan mudah dibawa. Mouse ini menggunakan frekuensi radio 2.4GHz (bekerja hingga jarak 10m) dan fitur sensor canggih optik pelacakan dengan penerima USB yang kecil. Mouse ini didukung oleh 1x baterai AA (hingga 12 bulan hidup baterai). mendukung sistem operasi Windows 7,8, 10 keatas, Mac OS X 10.8 atau yang lebih baru dan sistem operasi Chrome OS.
-                         </p>
+                        <p className="detail-info"> product.desc</p>
                     </div>
                     <div className="row">
                         <div className="row mb-3">
-                        <p className="detail-price">Rp. 500.000</p>
+                        <p className="detail-price">Rp. product.price</p>
                         </div>
                         <div className="row">
-                        <Button className="btn-detail" onClick={handleBuy}>Buy</Button>
+                        <Button 
+                        onClick={() => handleBuy.mutate()}
+                        className="btn-detail" >Buy</Button>
                         </div>
                     </div>
                 </div>

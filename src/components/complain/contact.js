@@ -1,19 +1,25 @@
+import default_profile from '../../assets/Image-Not-Available.png'
 
-const Contact = ({ dataContact, setContact, contact }) => {
+const Contact = ({ dataContact, clickContact, contact }) => {
     
-    const clickContact = (id) => {
-        const data = dataContact.find((item) => item.id == id);
-        setContact(data);
-      };
-    
+    // console.log(dataContact)
+    // console.log(clickContact)
+    // console.log(contact)
+
+
     return ( 
         <>
-    { dataContact.map((item) => (
-        <div className="d-flex align-items-center"
-        onClick={() => {
-            clickContact(item.id);}}
-        >
-            <img src={item.img} 
+        {dataContact.map((item) => (
+            <div 
+             key={item.id}
+             className={`contact mt-3 p-2 ${
+                contact?.id === item?.id && "contact-active"
+              }`}
+              onClick={() => {
+                clickContact(item);
+              }}
+            >   
+            <img src={default_profile} 
             className="rounded-circle"
             alt="contact-img"
             style={{
@@ -24,7 +30,7 @@ const Contact = ({ dataContact, setContact, contact }) => {
             <div>
                 <ul className="profile-li">
                     <li className="contact-name">{item.name}</li>
-                    <li className="contact-message">{item.chat}</li>
+                    <li className="contact-message">{item?.message}</li>
                 </ul>
             </div>
         </div>  

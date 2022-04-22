@@ -1,26 +1,75 @@
 import {Container, Row, Col, Table, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 import MenubarAdmin from '../components/menubarAdmin';
 import Deletebox from '../components/modal/deleteBox';
+import { API } from "../config/api";
 
 
 const Category = () => {
-
     const navigate = useNavigate();
-    const [show, setShow] = useState(false);
+    
+     //variable store data product
+    const [categories, setCategories] = useState([]);
 
-    const handleClose = () => {setShow(false)};
-    const handleShow = () => {setShow(true)};
+    //Get data category from database
+    const getCategories = async () => {
+        try {
+        //fetching data using rest api
+        const response = await API.get("/categories");
+        //store data to variable
+        setCategories(response.data.data);
+        } catch (error) {
+        console.log(error);
+        };
+    };
+
+    useEffect(() => {
+        getCategories();
+    }, []);
+
+    const [show, setShow] = useState(false);
+    const [idDelete, setIdDelete] = useState(null);
+    const [confirmDelete, setConfirmDelete] = useState(null);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const handleAdd = () =>{
         navigate("/addcategory")
     };
 
-    const handleEdit = () =>{
-        navigate("/updatecategory")
+    const handleEdit = (id) =>{
+        navigate("/updatecategory/"+id)
     };
+
+    const handleDelete = (id) => {
+        setIdDelete(id);
+        handleShow();
+    };
+    
+    // Create function for handle delete product here ...
+    // If confirm is true, execute delete data
+    const deleteById = async (id) => {
+        try {
+          await API.delete(`/category/${id}`);
+          getCategories();
+        } catch (error) {
+          console.log(error);
+        }
+    };
+    
+    useEffect(() => {
+        if (confirmDelete) {
+          // Close modal confirm delete data
+          handleClose();
+          // execute delete data by id function
+          deleteById(idDelete);
+          setConfirmDelete(null);
+        }
+    }, [confirmDelete]);
+    
     return ( 
     <>
         <header>
@@ -43,6 +92,7 @@ const Category = () => {
                     </Button>
                 </Col>
                 <Col xs="12" className="mt-3">
+                    {categories.length != 0 ? (
                     <Table striped hover size="lg" variant="dark">
                         <thead>
                             <tr>
@@ -52,59 +102,46 @@ const Category = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td width="10%" className="align-middle">
-                                    1
-                                </td>
-                                <td width="60%" className="align-middle">
-                                    Pheriperals
-                                </td>
-                                <td width="30%">
-                                    <Button
-                                    className="btn-sm btn-success me-2"
-                                    style={{ width: "135px" }}
-                                    onClick={handleEdit}
-                                    >
-                                    Edit
-                                    </Button>
-                                    <Button
-                                    className="btn-sm btn-danger"
-                                    style={{ width: "135px" }}
-                                    onClick={handleShow}                                
-                                    >
-                                    Delete
-                                    </Button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td width="10%" className="align-middle">
-                                    2
-                                </td>
-                                <td width="60%" className="align-middle">
-                                    Computer
-                                </td>
-                                <td width="30%">
-                                    <Button
-                                    className="btn-sm btn-success me-2"
-                                    style={{ width: "135px" }}
-                                    >
-                                    Edit
-                                    </Button>
-                                    <Button
-                                    className="btn-sm btn-danger"
-                                    style={{ width: "135px" }}
-                                    >
-                                    Delete
-                                    </Button>
-                                </td>
-                            </tr>
+                        {categories?.map((item,index)=>(
+                            <tr key={index}>
+                            <td width="10%" className="align-middle">
+                               {index + 1}
+                            </td>
+                            <td width="60%" className="align-middle">
+                                {item.name}
+                            </td>
+                            <td width="30%">
+                                <Button
+                                className="btn-sm btn-success me-2"
+                                style={{ width: "135px" }}
+                                onClick={()=>{handleEdit(item.id)}}
+                                >
+                                Edit
+                                </Button>
+                                <Button
+                                className="btn-sm btn-danger"
+                                style={{ width: "135px" }}
+                                onClick={()=>{handleDelete(item.id)}}                                
+                                >
+                                Delete
+                                </Button>
+                            </td>
+                        </tr>
+                        ))}
                         </tbody>
                     </Table>
+                    ):(
+                        <div className="text-center pt-5">
+                            <div className="mt-3">No data product</div>
+                        </div>
+                    )}
                 </Col>
             </Row>
         </Container>
-        <Deletebox show={show} close={handleClose}/>
-
+        <Deletebox show={show} 
+            handleClose={handleClose} 
+            setConfirmDelete={setConfirmDelete}
+        />
     </>
 
      );

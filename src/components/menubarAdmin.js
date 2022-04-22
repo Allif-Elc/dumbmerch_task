@@ -1,6 +1,15 @@
+import { useContext } from 'react';
 import {Link} from 'react-router-dom'
+import { UserContext } from '../context/userContext';
 
 const MenubarAdmin = () => {
+    const [state,dispatch] = useContext(UserContext);
+    
+    const logout = () => {
+        dispatch({
+            type: "LOGOUT"
+        });
+    };
 
     return ( 
         <nav className="mx-4 my-3">
@@ -17,7 +26,7 @@ const MenubarAdmin = () => {
             </div>
             <div className="col d-flex justify-content-end">
                 <div className="px-2 mx-1">
-                    <Link className="menu-name"to="/complain">Complain</Link>
+                    <Link className="menu-name"to="/complainadmin">Complain</Link>
                 </div>
                 <div className="px-2 mx-1">
                     <Link className="menu-name"to="/category">Category</Link>
@@ -26,7 +35,7 @@ const MenubarAdmin = () => {
                     <Link className="menu-name" to="/productadmin">Product</Link>
                 </div>
                 <div className="px-2 mx-1">
-                    <Link className="menu-name" to="/">Logout</Link>
+                    <Link className="menu-name" onClick={logout} to="/">Logout</Link>
                 </div>
             </div>
             </div>            

@@ -1,0 +1,59 @@
+   <Table striped hover size="lg" variant="dark">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Photo</th>
+                    <th>Product Name</th>
+                    <th>Product Desc</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {products?.map((item, index) => (
+                    <tr>
+                      <td className="align-middle">
+                        {index + 1}
+                      </td>
+                      <td className="align-middle">
+                        <img
+                          src={item.image}
+                          style={{
+                            width: '80px',
+                            height: '80px',
+                            objectFit: 'cover',
+                          }}
+                          alt="preview"
+                        />
+                      </td> 
+                      <td className="align-middle">
+                        {item.title}
+                      </td>
+                      <td className="align-middle">
+                          {item.qty}
+                      </td>
+                      <td className="align-middle">
+                        {item.qty}
+                      </td>
+                      <td className="align-middle">
+                        <Button
+                          className="btn-sm btn-success me-2"
+                          style={{ width: "135px" }}
+                          onClick={handleEdit(item.id)}
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          className="btn-sm btn-danger"
+                          style={{ width: "135px" }}
+                          onClick={handleDelete(item.id)}
+                        >
+                          Delete
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>;
+                
+              </Table>

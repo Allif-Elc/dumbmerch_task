@@ -5,10 +5,10 @@ const ListProductCard = ({ item, index }) => {
     return ( 
         <div className="product-card">
             <div style={{width: 241,height: 312}}>
-                <Link to="/detail"
+                <Link to={"/detail/"+ item.id}
                 key={index}
                 >
-                    <img src={item.url} 
+                    <img src={item.image} 
                     alt="product-img"
                     style={{
                         height:"100%",
@@ -18,9 +18,9 @@ const ListProductCard = ({ item, index }) => {
                 </Link>
             </div> 
             <div className="ms-3">
-                <p className="product-title mt-3 mb-2">{item.name}</p>
+                <p className="product-title mt-3 mb-2 overflow-hidden">{item.title}</p>
                 <p className="product-info mb-1">Rp.{item.price}</p>
-                <p className="product-info mb-1">Stock:{item.stock}</p>
+                <p className="product-info mb-1">Stock:{item.qty}</p>
             </div>
         </div>
      );

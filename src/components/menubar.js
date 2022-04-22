@@ -1,7 +1,15 @@
+import { useContext } from 'react';
 import {Link} from 'react-router-dom'
+import { UserContext } from '../context/userContext';
 
 const Menubar = (props) => {
+    const [state,dispatch] = useContext(UserContext);
 
+    const logout = () => {
+        dispatch({
+            type: "LOGOUT",
+        });
+    }
     return ( 
         <nav className="mx-4 my-3">
             <div className="row align-items-start">
@@ -13,7 +21,7 @@ const Menubar = (props) => {
                     style={{width:70,height:68.22}}
                      />
                 </Link>
-                {props?.isHome =='home'? 
+                {props?.isHome ==='home'? 
                 <form 
                 className="d-flex"
                 style={{width:420,height:30.22}}    
@@ -31,7 +39,7 @@ const Menubar = (props) => {
                     <Link className="menu-name" to="/profile">Profile</Link>
                 </div>
                 <div className="px-2 mx-1">
-                    <Link className="menu-name" to="/">Logout</Link>
+                    <Link className="menu-name" onClick={logout} to="/">Logout</Link>
                 </div>
             </div>
             </div>            
