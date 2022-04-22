@@ -2,7 +2,10 @@ import axios from "axios";
 
 //Create base URL
 export const API = axios.create({
-    baseURL: "http://localhost:5000/api/v1/",
+    baseURL: 
+      process.env.SERVER_URL ||
+      "https://dumbmerch-be33.herokuapp.com/api/v1/"||
+      "http://localhost:5000/api/v1/",
 });
 
 //Set Auth token header
@@ -15,7 +18,11 @@ export const setAuthToken = (token) => {
 };
 
 export const API_query = () => {
-  const baseUrl = "http://localhost:5000/api/v1";
+  const baseUrl = 
+    process.env.SERVER_URL ||
+    "https://dumbmerch-be33.herokuapp.com/api/v1/"||
+    "http://localhost:5000/api/v1/";
+
 
   const executeAPI = async (endpoint, config) => {
     const response = await fetch(baseUrl + endpoint, config);
